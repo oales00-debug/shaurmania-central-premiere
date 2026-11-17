@@ -11,10 +11,16 @@ let elapsed = 0;
 let previousTime = performance.now();
 let manualComparison = false;
 
+const playbackLabels = {
+  en: ['Pause','Play','Pause slideshow','Resume slideshow'],
+  fr: ['Pause','Lecture','Suspendre le diaporama','Reprendre le diaporama'],
+  uk: ['Пауза','Показ','Призупинити автопоказ','Продовжити автопоказ']
+}[document.documentElement.lang];
+const languages = document.querySelectorAll('.languages a');
 function setPlaying(value) {
   running = value;
-  play.textContent = running ? 'Пауза' : 'Показ';
-  play.setAttribute('aria-label', running ? 'Призупинити автопоказ' : 'Продовжити автопоказ');
+  play.textContent = playbackLabels[running ? 0 : 1];
+  play.setAttribute('aria-label', playbackLabels[running ? 2 : 3]);
 }
 function show(index) {
   current = (index + slides.length) % slides.length;
@@ -25,6 +31,7 @@ function show(index) {
     nav.children[i].setAttribute('aria-current', String(i === current));
   });
   slides[current].scrollTop = 0;
+  languages.forEach(link => { link.hash = String(current + 1); });
   history.replaceState(null, '', '#' + (current + 1));
 }
 function fromHash() {
