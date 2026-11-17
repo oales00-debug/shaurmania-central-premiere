@@ -3,7 +3,7 @@ const nav = document.querySelector('nav');
 const play = document.querySelector('#play');
 const bar = document.querySelector('.progress i');
 const range = document.querySelector('.comparison input');
-const durations = [14000, 31000, 24000, 30000, 29000];
+const durations = [14000, 31000, 22000, 22000, 24000, 30000, 24000, 29000, 25000];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let running = !reduced;
 let current = 0;
@@ -77,7 +77,7 @@ function frame(now) {
   previousTime = now;
   if (elapsed >= durations[current]) show(current + 1);
   bar.style.transform = 'scaleX(' + elapsed / durations[current] + ')';
-  if (current === 4 && !manualComparison && !reduced && running) {
+  if (slides[current].contains(range) && !manualComparison && !reduced && running) {
     compare(50 + 43 * Math.sin(elapsed / 3000));
   }
   requestAnimationFrame(frame);
